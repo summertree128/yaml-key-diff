@@ -6,6 +6,8 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
+      - name: bundle install
+        run: bundle install
       - name: Unit test
         run: |
           rake test
