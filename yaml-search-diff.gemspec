@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'yaml-search-diff'
-  s.version     = '0.1.0'
+  s.version     = '0.2.0'
   s.executables << 'ysdiff'
   s.summary     = "diff of a specific key in yaml"
   s.description = "A commandline tool to showdiff of a specific key in yaml files."
