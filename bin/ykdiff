@@ -1,4 +1,15 @@
 #!/usr/bin/env ruby
 
+require 'yaml'
 require 'yaml_key_diff'
-puts YamlKeyDiff.hi
+
+key = ARGV[0]
+file_1 = ARGV[1]
+file_2 = ARGV[2]
+
+# TODO: validate arguments and show help
+
+yml_1 = open(file_1) {|f| YAML.load(f)}
+yml_2 = open(file_2) {|f| YAML.load(f)}
+
+puts YamlKeyDiff.run(key: key, yml_1: yml_1, yml_2: yml_2)
