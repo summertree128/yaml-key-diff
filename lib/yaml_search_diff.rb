@@ -1,7 +1,7 @@
 require 'yaml'
 require 'diffy'
 
-class YamlKeyDiff
+class YamlSearchDiff
   def self.run(key:, yml_1:, yml_2:)
     partial_1 = dfs(yml_1, key)
     partial_2 = dfs(yml_2, key)

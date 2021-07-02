@@ -1,7 +1,7 @@
 require 'minitest/autorun'
-require 'yaml_key_diff'
+require 'yaml_search_diff'
 
-class YamlKeyDiffTest < Minitest::Test
+class YamlSearchDiffTest < Minitest::Test
   def test_run
     yml_1 = <<~YAML_EOT
     key1:
@@ -21,7 +21,7 @@ class YamlKeyDiffTest < Minitest::Test
     yml_2 = YAML.load(yml_2)
 
     assert_equal "",
-      YamlKeyDiff.run(key: 'key1', yml_1: yml_1, yml_2: yml_2).to_s
+      YamlSearchDiff.run(key: 'key1', yml_1: yml_1, yml_2: yml_2).to_s
 
     expected_diff = <<~EXPECTED_DIFF
      ---
@@ -30,6 +30,6 @@ class YamlKeyDiffTest < Minitest::Test
     EXPECTED_DIFF
 
     assert_equal expected_diff,
-      YamlKeyDiff.run(key: 'key2', yml_1: yml_1, yml_2: yml_2).to_s
+      YamlSearchDiff.run(key: 'key2', yml_1: yml_1, yml_2: yml_2).to_s
   end
 end

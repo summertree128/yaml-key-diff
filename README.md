@@ -1,4 +1,4 @@
-# yaml-key-diff
+# yaml-search-diff
 
 [![Test](https://github.com/summertree128/yaml-key-diff/actions/workflows/github-actions-demo.yml/badge.svg)](https://github.com/summertree128/yaml-key-diff/actions/workflows/github-actions-demo.yml)
 
