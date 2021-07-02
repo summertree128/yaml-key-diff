@@ -6,7 +6,7 @@ jobs:
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
-      - name: List files in the repository
+      - name: Unit test
         run: |
           rake test
       - run: echo "This job's status is ${{ job.status }}."
