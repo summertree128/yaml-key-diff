@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'yaml-search-diff'
-  s.version     = '0.3.0'
+  s.version     = '0.4.0'
   s.executables << 'ysdiff'
   s.summary     = "diff of a specific key in yaml"
   s.description = "A commandline tool to showdiff of a specific key in yaml files."
@@ -13,4 +13,5 @@ Gem::Specification.new do |s|
   s.metadata = {
     "documentation_uri" => "https://github.com/summertree128/yaml-search-diff"
   }
+  s.add_dependency "diffy", '~> 3.4'
 end
