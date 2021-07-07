@@ -3,6 +3,8 @@ require 'diffy'
 
 class YamlSearchDiff
   def self.run(key:, yml_1:, yml_2:)
+    return "" unless yml_1.is_a?(Hash) && yml_2.is_a?(Hash)
+
     partial_1 = dfs(yml_1, key)
     partial_2 = dfs(yml_2, key)
 

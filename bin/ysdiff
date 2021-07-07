@@ -12,4 +12,13 @@ file_2 = ARGV[2]
 yml_1 = open(file_1) {|f| YAML.load(f)}
 yml_2 = open(file_2) {|f| YAML.load(f)}
 
-puts YamlSearchDiff.run(key: key, yml_1: yml_1, yml_2: yml_2)
+invalid_files = []
+invalid_files << file_1 unless yml_1.is_a?(Hash)
+invalid_files << file_2 unless yml_2.is_a?(Hash)
+
+if invalid_files.empty?
+  puts YamlSearchDiff.run(key: key, yml_1: yml_1, yml_2: yml_2)
+else
+  STDERR.puts "Couldn't parse following files as Hash: #{invalid_files.join(', ')}"
+  exit 1
+end
