@@ -17,7 +17,6 @@ class YamlSearchDiffTest < Minitest::Test
           nested_nested_key2:
             - nested_nested_nested_key: XXXX
             - nested_nested_nested_key2: YYYY
-          null: ~
           true: yes
           false: no
       YAML_EOT
@@ -57,7 +56,6 @@ class YamlSearchDiffTest < Minitest::Test
 
     expected_diff_nested_key3 = <<~EXPECTED_DIFF
      ---
-    -! '':
     -false: false
      nested_nested_key:
     -- AAAAA
