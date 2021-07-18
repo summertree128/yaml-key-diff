@@ -121,4 +121,66 @@ class YamlSearchDiffTest < Minitest::Test
     assert_equal expected_diff,
       YamlSearchDiff.run(key: 'key1', yml_1: yml_1, yml_2: yml_2).to_s
   end
+
+  def test_dig
+    str_1 = <<~YAML_EOT
+      key1:
+        nested_key1:
+          nested_nested_key1:
+            - AAA
+            - BBB
+      key2:
+        nested_key1:
+          nested_nested_key1:
+            - CCC
+    YAML_EOT
+
+    str_2 = <<~YAML_EOT
+      key1:
+        nested_key1:
+          nested_nested_key1:
+            - DDD
+            - AAA
+          nested_nested_key2:
+            - bbb
+      key2:
+        nested_key1:
+          nested_nested_key1: CCC
+    YAML_EOT
+
+    yml_1 = YAML.load(str_1)
+    yml_2 = YAML.load(str_2)
+
+    expected_diff_1 = <<~DIFF
+     ---
+     - AAA
+    -- BBB
+    +- DDD
+    DIFF
+
+    assert_equal expected_diff_1,
+    YamlSearchDiff.run(key: 'key1:nested_key1:nested_nested_key1', yml_1: yml_1, yml_2: yml_2).to_s
+
+    expected_diff_2 = <<~DIFF
+     ---
+    +- bbb
+    DIFF
+
+    assert_equal expected_diff_2,
+    YamlSearchDiff.run(key: 'key1:nested_key1:nested_nested_key2', yml_1: yml_1, yml_2: yml_2).to_s
+
+    expected_diff_3 = <<~DIFF
+    ----
+    -- CCC
+    +--- CCC
+    DIFF
+
+    assert_equal expected_diff_3,
+    YamlSearchDiff.run(key: 'key2:nested_key1:nested_nested_key1', yml_1: yml_1, yml_2: yml_2).to_s
+
+    expected_diff_4 = ''
+
+    assert_equal expected_diff_4,
+    YamlSearchDiff.run(key: 'key1:non-existence_key', yml_1: yml_1, yml_2: yml_2).to_s
+  end
 end

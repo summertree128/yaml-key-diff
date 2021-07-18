@@ -6,19 +6,31 @@ class YamlSearchDiff
     def run(key:, yml_1:, yml_2:)
       return "" unless yml_1.is_a?(Hash) && yml_2.is_a?(Hash)
 
-      searched_1 = catch(:has_key) { dfs(yml_1, key) }
-      searched_2 = catch(:has_key) { dfs(yml_2, key) }
-
-      sorted_1 = sort_yml(searched_1)
-      sorted_2 = sort_yml(searched_2)
+      searched_1 = key.include?(':') ? search_dig(key, yml_1) : search(key, yml_1)
+      searched_2 = key.include?(':') ? search_dig(key, yml_2) : search(key, yml_2)
 
       Diffy::Diff.new(
-        YAML.dump(sorted_1),
-        YAML.dump(sorted_2)
+        YAML.dump(searched_1),
+        YAML.dump(searched_2)
       )
     end
 
     private
+
+      def search(key, yml)
+        searched = catch(:has_key) { dfs(yml, key) }
+        sort_yml(searched)
+      end
+
+      def search_dig(key, yml)
+        splitted_keys = key.split(':')
+        first_key = splitted_keys.first
+
+        searched = catch(:has_key) { dfs(yml, first_key) }
+        digged = searched.dig(*splitted_keys[1..])
+
+        sort_yml(digged)
+      end
 
       def dfs(hash, key)
         keys = hash.keys.sort_by(&:to_s)
