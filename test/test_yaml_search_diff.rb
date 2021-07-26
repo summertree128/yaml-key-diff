@@ -310,4 +310,50 @@ class YamlSearchDiffTest < Minitest::Test
       @ysdiff.run(key: '4.56:78.9', yml_1: yml_1, yml_2: yml_2).to_s
     )
   end
+
+  def test_all_diff
+    str_1 = <<~YAML_EOT
+    key1:
+      - AAA
+      - BBB
+    2:
+      78.9:
+        - CCC
+        - DDD
+    YAML_EOT
+
+    str_2 = <<~YAML_EOT
+    key1:
+      - BBB
+      - CCC
+    3:
+      78.9:
+        - 123.45
+        - 6.7890
+    YAML_EOT
+
+    yml_1 = YAML.load(str_1)
+    yml_2 = YAML.load(str_2)
+
+    expected_diff_1 = <<~DIFF
+     ---
+    -2:
+    +3:
+       78.9:
+    -  - CCC
+    -  - DDD
+    +  - 123.45
+    +  - 6.789
+     key1:
+    -- AAA
+     - BBB
+    +- CCC
+    DIFF
+
+    assert_equal(
+      expected_diff_1,
+      @ysdiff.run(key: ':', yml_1: yml_1, yml_2: yml_2).to_s
+    )
+
+  end
 end

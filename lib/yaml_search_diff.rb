@@ -29,6 +29,8 @@ class YamlSearchDiff
 
     def search_dig(key, yml)
       tokenized_keys = key.split(':').map {|k| @scalar_scanner.tokenize(k) }
+      return sort_yml(yml) if tokenized_keys.size.zero?
+
       first_key = tokenized_keys.first
 
       searched = catch(:has_key) { dfs(yml, first_key) }
